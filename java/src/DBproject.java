@@ -298,12 +298,221 @@ public class DBproject{
 	}//end readChoice
 
 	public static void AddDoctor(DBproject esql) {//1
+		
+	int Doctor_ID, did;
+		String name, specialty;
+
+		do {
+			System.out.print("Please input Doctor's ID: ");
+			try {
+				Doctor_ID = Integer.parseInt(in.readLine());
+				break;
+			}catch (Exception e) {
+				System.out.println("not a valid ID number");
+				continue;
+			}
+		}while (true);
+
+		do {
+			System.out.print("Please input Department ID: ");
+			try {
+				did = Integer.parseInt(in.readLine());
+				break;
+			}catch (Exception e) {
+				System.out.println("not a valid ID number");
+				continue;
+			}
+		}while (true);
+
+		do {
+			System.out.print("Please input Doctor's name: ");
+			try {
+				name = in.readLine();
+				if(name.length() <= 0 || name.length() > 128) {
+					throw new RuntimeException("name must have at least one character and no more than 128");
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println(e);
+				continue;
+			}
+		}while (true);
+
+		do {
+			System.out.print("Input Doctor's specialty: ");
+			try {
+				specialty = in.readLine();
+				if(specialty.length() <= 0 || specialty.length() > 24) {
+					throw new RuntimeException("Specialy must have at least one character and no more than 24");
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println(e);
+				continue;
+			}
+		}while (true);
+
+		try{
+			String query = "INSERT INTO Doctor (Doctor_ID, did, name, specialty) VALUES ("+ Doctor_ID +" , "+ did +" , \'"+ name +"\' , \'"+ specialty +"\');";
+			esql.executeUpdate(query);
+		}catch(Exception e){
+			System.err.println (e.getMessage());
+		}
 	}
 
 	public static void AddPatient(DBproject esql) {//2
+	int patient_ID, age, number_of_appts;
+		String ptname, address, gender;
+		do {
+			System.out.print("Please input patient ID: ");
+			try {
+				patient_ID = Integer.parseInt(in.readLine());
+				break;
+			}catch (Exception e) {
+				System.out.println("not a valid ID number");
+				continue;
+			}
+		}while (true);
+
+		do {
+			System.out.print("Please input patient's name: ");
+			try {
+				ptname = in.readLine();
+				if(ptname.length() <= 0 || ptname.length() > 128) {
+					throw new RuntimeException("Patient name must have at least one character and no more than 128");
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println(e);
+				continue;
+			}
+		}while (true);
+
+		do {
+			System.out.print("Please input patient gender (M/F): ");
+			try {
+				gender = in.readLine();
+				if(gender.equals("M")|| gender.equals("F")) {
+					continue;
+				}
+				else{
+					throw new RuntimeException("Patient gender must either 'M' or 'F' as input");
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println(e);
+				continue;
+			}
+		}while(true);
+
+		do {
+			System.out.print("Please input patients age : ");
+			try {
+				age = Integer.parseInt(in.readLine());
+				break;
+			}catch (Exception e) {
+				System.out.println("not a valid ID number");
+				continue;
+			}
+		}while (true);
+
+		do {
+			System.out.print("Please input patient's address : ");
+			try {
+				address = in.readLine();
+				if(address.length() <= 0 || address.length() > 256) {
+					throw new RuntimeException("Patient name must have at least one character and no more than 128");
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println(e);
+				continue;
+			}
+		}while (true);		
+
+		do {
+			System.out.print("Please input patient's number of appointments : ");
+			try {
+				number_of_appts = Integer.parseInt(in.readLine());
+				break;
+			}catch (Exception e) {
+				System.out.println("not a valid number");
+				continue;
+			}
+		}while (true);
+
+		try{
+			String query = "INSERT INTO Doctor (patient_ID, name, gtype, age, address, number_of_appointments) VALUES ("+ patient_ID +" , \'"+ ptname +"\' , \'"+ gender +"\' , "+ age +", \'"+ address +"\',"+ number_of_appts +");";
+			esql.executeUpdate(query);
+		}catch(Exception e){
+			System.err.println (e.getMessage());
+		}
+
 	}
 
 	public static void AddAppointment(DBproject esql) {//3
+	int appt_ID;
+		String date, time, status;
+
+		do {
+			System.out.print("Please input the appointment ID: ");
+			try {
+				appt_ID = Integer.parseInt(in.readLine());
+				break;
+			}catch (Exception e) {
+				System.out.println("not a valid number");
+				continue;
+			}
+		}while (true);
+
+		do {
+			System.out.print("Please input appointment date (xx/xx/xxxx): ");
+			try {
+				date = in.readLine();
+				if(date.length() <= 7 || date.length() > 10) {
+					throw new RuntimeException("Not a valid input ");
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println(e);
+				continue;
+			}
+		}while (true);
+
+		do {
+			System.out.print("Please input appointment time slot (xx:xx-xx:xx): ");
+			try {
+				time = in.readLine();
+				if(time.length() <= 9 || time.length() > 11) {
+					throw new RuntimeException("Not a valid input");
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println(e);
+				continue;
+			}
+		}while (true);
+
+		do {
+			System.out.print("Please input appointment Status ( PA, AC, AV, WL ) : ");
+			try {
+				status = in.readLine();
+				if(status.length() <= 1 || status.length() > 2) {
+					throw new RuntimeException("Not a valid input");
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println(e);
+				continue;
+			}
+		}while (true);
+
+		try{
+			String query = "INSERT INTO Appointment (appnt_ID, adate, time_slot, status) VALUES ("+ appt_ID +" , \'"+ date +"\' , \'"+ time +"\' , \'"+ status +"\');";
+			esql.executeUpdate(query);
+		}catch(Exception e){
+			System.err.println (e.getMessage());
+		}
 	}
 
 
